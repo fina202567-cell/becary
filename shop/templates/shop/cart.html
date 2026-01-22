@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% block title %}Your Cart | Bakery{% endblock %}
+
+{% block content %}
+<h2 class="fw-bold mb-4 text-center fade-up">🛒 Your Cart</h2>
+
+<div class="row justify-content-center">
+    <div class="col-md-10">
+
+        {% if cart_items %}
+        <div class="product-detail p-4">
+
+            <table class="table align-middle">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Price (excl. tax)</th>
+                        <th>Tax</th>
+                        <th>Price (incl. tax)</th>
+                        <th>Qty</th>
+                        <th>Subtotal</th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart_items %}
+                    <tr class="fade-up">
+
+                        <!-- PRODUCT -->
+                        <td class="d-flex align-items-center gap-3">
+                            {% if item.item.product.image %}
+                            <img src="{{ item.item.product.image.url }}"
+                                 alt="{{ item.item.product.name }}"
+                                 class="rounded"
+                                 style="width:60px;height:60px;object-fit:cover;">
+                            {% endif %}
+                            <strong>{{ item.item.product.name }}</strong>
+                        </td>
+
+                        <!-- PRICE -->
+                        <td>¥ {{ item.item.product.price|floatformat:0 }}</td>
+
+                        <!-- TAX -->
+                        <td>¥ {{ item.tax|floatformat:0 }}</td>
+
+                        <!-- PRICE INCL TAX -->
+                        <td>¥ {{ item.price_with_tax|floatformat:0 }}</td>
+
+                        <!-- QUANTITY -->
+                        <td>
+                            <div class="d-flex align-items-center gap-2">
+                                <a href="{% url 'shop:cart_decrease' item.item.product.id %}"
+                                   class="btn btn-outline-secondary btn-sm">−</a>
+
+                                <span class="fw-semibold">{{ item.item.quantity }}</span>
+
+                                <a href="{% url 'shop:cart_increase' item.item.product.id %}"
+                                   class="btn btn-outline-secondary btn-sm">+</a>
+                            </div>
+                        </td>
+
+                        <!-- SUBTOTAL -->
+                        <td>¥ {{ item.subtotal|floatformat:0 }}</td>
+
+                        <!-- REMOVE -->
+                        <td>
+                            <a href="{% url 'shop:remove_from_cart' item.item.product.id %}"
+                               class="btn btn-outline-danger btn-sm">✕</a>
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <hr>
+
+            <div class="text-end fs-5 fw-semibold mb-3">
+                Subtotal: ¥ {{ subtotal|floatformat:0 }}<br>
+                Tax ({{ tax_rate }}%): ¥ {{ tax_total|floatformat:0 }}<br>
+                <span class="fs-4 text-success">
+                    Total: ¥ {{ total|floatformat:0 }}
+                </span>
+            </div>
+
+            <a href="{% url 'shop:checkout' %}"
+               class="btn-bakery w-100 py-3 fw-bold">
+                Proceed to Checkout 💳
+            </a>
+
+        </div>
+        {% else %}
+        <div class="alert alert-info text-center shadow-sm fade-up">
+            Your cart is empty 🧺
+        </div>
+        <div class="text-center mt-3">
+            <a href="{% url 'shop:product_list' %}" class="btn btn-warning px-4">
+                Start Shopping 🍞
+            </a>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}

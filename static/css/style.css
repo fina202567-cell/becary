@@ -1,0 +1,362 @@
+/* =========================
+   GLOBAL RESET & VARIABLES
+========================= */
+:root {
+    --cream: #fdf6f0;
+    --brown: #6f4e37;
+    --caramel: #c89b6d;
+    --caramel-dark: #b18355;
+    --text-dark: #3a2a20;
+
+    --shadow-soft: 0 8px 20px rgba(0,0,0,0.08);
+    --shadow-strong: 0 18px 40px rgba(0,0,0,0.18);
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: var(--cream);
+    font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--text-dark);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* =========================
+   PAGE TRANSITION
+========================= */
+.page {
+    animation: pageFade 0.45s ease;
+}
+
+@keyframes pageFade {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================
+   NAVBAR (GLASS)
+========================= */
+.navbar {
+    background: linear-gradient(
+        90deg,
+        rgba(230,199,163,0.85),
+        rgba(241,216,184,0.85)
+    );
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.4);
+    padding: 14px 24px;
+    box-shadow: var(--shadow-soft);
+}
+
+.navbar-brand {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--brown) !important;
+    letter-spacing: 0.5px;
+}
+
+.navbar-nav .nav-link {
+    color: var(--brown) !important;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 14px;
+    transition: all 0.25s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    background: rgba(255,255,255,0.6);
+    transform: translateY(-1px);
+}
+
+/* =========================
+   BUTTONS
+========================= */
+.btn-bakery {
+    background: linear-gradient(135deg, var(--caramel), var(--caramel-dark));
+    color: #fff !important;
+    border-radius: 30px;
+    padding: 10px 26px;
+    font-weight: 700;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-bakery:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 22px rgba(0,0,0,0.25);
+}
+
+/* Add to cart pulse */
+.cart-added {
+    animation: pulse 0.45s ease;
+    box-shadow: 0 0 0 8px rgba(200,155,109,0.25);
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.12); }
+    100% { transform: scale(1); }
+}
+
+/* =========================
+   HEADINGS
+========================= */
+h1, h2, h3, h4, h5 {
+    color: var(--brown);
+    font-weight: 800;
+}
+
+/* =========================
+   PRODUCT GRID
+========================= */
+.bakery-card {
+    background: #fff;
+    border-radius: 22px;
+    padding: 18px;
+    height: 100%;
+    text-align: center;
+    box-shadow: var(--shadow-soft);
+    transition: all 0.35s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.bakery-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+        circle at top,
+        rgba(255,255,255,0.7),
+        transparent 60%
+    );
+    opacity: 0;
+    transition: opacity 0.35s ease;
+}
+
+.bakery-card:hover::after {
+    opacity: 1;
+}
+
+.bakery-card:hover {
+    transform: translateY(-12px);
+    box-shadow: var(--shadow-strong);
+}
+
+.bakery-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 16px;
+    margin-bottom: 14px;
+    transition: transform 0.35s ease;
+}
+
+.bakery-card:hover img {
+    transform: scale(1.05);
+}
+
+.bakery-card h5 {
+    margin-top: 12px;
+    font-size: 1.25rem;
+    transition: color 0.3s ease;
+}
+
+.bakery-card:hover h5 {
+    color: var(--caramel-dark);
+}
+
+.bakery-card p {
+    font-size: 1.05rem;
+    color: #666;
+}
+
+/* =========================
+   PRODUCT DETAIL
+========================= */
+.product-detail {
+    background: #fff;
+    padding: 32px;
+    border-radius: 24px;
+    box-shadow: var(--shadow-soft);
+    animation: fadeUp 0.6s ease;
+}
+
+.product-detail img {
+    width: 100%;
+    border-radius: 20px;
+    transition: transform 0.4s ease;
+}
+
+.product-detail img:hover {
+    transform: scale(1.04);
+}
+
+/* =========================
+   CART TABLE
+========================= */
+.table tbody tr {
+    transition: all 0.25s ease;
+}
+
+.table tbody tr:hover {
+    background: linear-gradient(90deg, #fff6ec, #fff);
+    transform: scale(1.01);
+}
+
+/* =========================
+   FLOATING CHECKOUT
+========================= */
+.checkout-float {
+    position: sticky;
+    bottom: 20px;
+    z-index: 10;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+
+/* =========================
+   FORMS
+========================= */
+.card {
+    border-radius: 22px;
+    border: none;
+    box-shadow: var(--shadow-soft);
+}
+
+form input,
+form select,
+form textarea {
+    border-radius: 14px;
+    padding: 12px 14px;
+}
+
+/* =========================
+   SKELETON LOADERS
+========================= */
+.skeleton {
+    background: linear-gradient(
+        100deg,
+        #f0e6da 40%,
+        #fff4ea 50%,
+        #f0e6da 60%
+    );
+    background-size: 200% 100%;
+    animation: skeleton 1.2s infinite;
+    border-radius: 14px;
+}
+
+@keyframes skeleton {
+    to {
+        background-position: -200% 0;
+    }
+}
+
+.skeleton-img {
+    height: 220px;
+    margin-bottom: 12px;
+}
+
+.skeleton-text {
+    height: 18px;
+    margin: 8px 0;
+}
+
+/* =========================
+   SCROLL REVEAL (NO JS)
+========================= */
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    animation: reveal linear forwards;
+    animation-timeline: view();
+    animation-range: entry 20% cover 30%;
+}
+
+@keyframes reveal {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================
+   FADE ANIMATIONS
+========================= */
+.fade-in {
+    animation: fadeIn 0.9s ease forwards;
+}
+
+.fade-up {
+    animation: fadeUp 0.8s ease forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0 }
+    to { opacity: 1 }
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(25px) }
+    to { opacity: 1; transform: translateY(0) }
+}
+
+/* =========================
+   FOOTER
+========================= */
+footer {
+    margin-top: 80px;
+    padding: 28px;
+    text-align: center;
+    background: linear-gradient(90deg, #e6c7a3, #f1d8b8);
+    color: var(--brown);
+}
+
+/* =========================
+   DARK MODE (OPTIONAL)
+========================= */
+body.dark {
+    background: #1e1a16;
+    color: #eee;
+}
+
+body.dark .card,
+body.dark .bakery-card,
+body.dark .product-detail {
+    background: #2a241f;
+    color: #f5eee8;
+}
+
+body.dark .navbar {
+    background: rgba(30,26,22,0.85);
+}
+
+/* =========================
+   MOBILE
+========================= */
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1.3rem;
+    }
+
+    .bakery-card img {
+        height: 180px;
+    }
+}

@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Home | Bakery{% endblock %}
+
+{% block content %}
+
+<!-- ================= HERO ================= -->
+<h2 class="text-center mb-4 fw-bold fade-up">
+    Welcome to Our Bakery 🍰
+</h2>
+
+<p class="text-center text-muted mb-5 fade-up" style="animation-delay: 0.1s;">
+    Fresh bread, sweet cakes, and happy moments — baked every day ❤️
+</p>
+
+<!-- ================= PRODUCTS ================= -->
+<div class="row g-4 mb-5">
+    {% for product in products %}
+        <div class="col-md-4 col-sm-6 fade-up" style="animation-delay: {{ forloop.counter0|add:"0.1"|floatformat:1 }}s;">
+            <div class="bakery-card h-100">
+
+                {% if product.image %}
+                    <img
+                        src="{{ product.image.url }}"
+                        alt="{{ product.name }}"
+                    >
+                {% else %}
+                    <img
+                        src="https://via.placeholder.com/400x250?text=Bakery+Item"
+                        alt="No image"
+                    >
+                {% endif %}
+
+                <h5>{{ product.name }}</h5>
+
+                <p>
+                    {{ product.description|default:"Freshly baked with love ❤️"|truncatechars:80 }}
+                </p>
+
+                <p class="fw-bold mb-2 text-success">
+                    ¥ {{ product.price }}
+                </p>
+
+                <a
+                    href="{% url 'shop:product_detail' product.pk %}"
+                    class="btn-bakery w-100"
+                >
+                    View Details
+                </a>
+            </div>
+        </div>
+    {% empty %}
+        <div class="col-12">
+            <p class="text-center text-muted">
+                No products available.
+            </p>
+        </div>
+    {% endfor %}
+</div>
+
+<!-- ================= ABOUT ================= -->
+<section id="about" class="py-5 border-top fade-up">
+    <div class="container">
+        <h3 class="fw-bold mb-3 text-center">About Our Bakery 🥖</h3>
+
+        <p class="text-center text-muted mx-auto" style="max-width: 700px;">
+            We are a small neighborhood bakery dedicated to baking fresh,
+            high-quality bread, cakes, and pastries every morning.
+            All our products are made with carefully selected ingredients
+            and lots of love ❤️
+        </p>
+    </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section id="contact" class="py-5 border-top fade-up">
+    <div class="container text-center text-muted">
+        <h3 class="fw-bold mb-3">Contact Us ☎️</h3>
+
+        <p class="mb-1">📍 Tokyo, Japan</p>
+        <p class="mb-1">📞 03-1234-5678</p>
+        <p class="mb-0">✉️ bakery@example.com</p>
+    </div>
+</section>
+
+{% endblock %}

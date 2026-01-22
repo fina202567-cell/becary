@@ -1,0 +1,106 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}🍞 Bakery{% endblock %}</title>
+
+    <!-- Bootstrap (for layout & components only) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar navbar-expand-lg page shadow-sm">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="{% url 'shop:home' %}">
+        🍞 <span>Bakery</span>
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navMenu">
+
+        <!-- LEFT MENU -->
+        <ul class="navbar-nav me-auto gap-2">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'shop:home' %}">Home</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'shop:product_list' %}">Products</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/#about">About</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/#contact">Contact</a>
+            </li>
+
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'shop:cart' %}">🛒 Cart</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'shop:orders' %}">📦 Orders</a>
+            </li>
+            {% endif %}
+        </ul>
+
+        <!-- RIGHT AUTH -->
+        <div class="d-flex align-items-center gap-2">
+            {% if user.is_authenticated %}
+                <span class="small me-2">Hi, {{ user.username }}</span>
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-bakery btn-sm">Logout</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}" class="btn btn-bakery btn-sm">Login</a>
+                <a href="{% url 'signup' %}" class="btn btn-bakery btn-sm">Sign Up</a>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+
+<!-- ================= MESSAGES ================= -->
+{% if messages %}
+<div class="container mt-3">
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<!-- ================= CONTENT ================= -->
+<main class="container my-4 flex-grow-1 page">
+    {% block content %}{% endblock %}
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="page">
+    <div class="container text-center py-4">
+        <p class="mb-1 fw-semibold">© 2026 Bakery Project</p>
+        <p class="mb-0">
+            <a href="/#about" class="text-decoration-none">About</a> •
+            <a href="/#contact" class="text-decoration-none">Contact</a>
+        </p>
+        <p class="mt-1">Made with Django 🍰</p>
+    </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

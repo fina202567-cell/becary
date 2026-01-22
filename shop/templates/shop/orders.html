@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}My Orders | Bakery{% endblock %}
+
+{% block content %}
+<h2 class="fw-bold mb-4 text-center">My Orders 📦</h2>
+
+{% if orders %}
+    {% for order in orders %}
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body">
+
+            <!-- ORDER HEADER -->
+            <div class="d-flex justify-content-between align-items-center flex-wrap mb-3">
+                <div>
+                    <h6 class="fw-bold mb-1">
+                        Order #{{ order.id }}
+                    </h6>
+                    <small class="text-muted">
+                        Placed on {{ order.created_at|date:"Y-m-d H:i" }}
+                    </small>
+                </div>
+
+                <div class="text-end">
+                    <span class="badge 
+                        {% if order.status == 'paid' %}
+                            bg-success
+                        {% else %}
+                            bg-secondary
+                        {% endif %}
+                        text-uppercase">
+                        {{ order.status }}
+                    </span>
+
+                    <div class="fw-bold mt-1 fs-5">
+                        ¥ {{ order.total_price }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- ORDER ITEMS -->
+            <ul class="list-group list-group-flush">
+                {% for item in order.items.all %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong>{{ item.product.name }}</strong><br>
+                        <small class="text-muted">
+                            ¥ {{ item.price }} × {{ item.quantity }}
+                        </small>
+                    </div>
+
+                    <!-- ✅ FIXED TOTAL -->
+                    <span class="fw-semibold">
+                        ¥ {{ item.get_total }}
+                    </span>
+                </li>
+                {% endfor %}
+            </ul>
+
+        </div>
+    </div>
+    {% endfor %}
+{% else %}
+    <div class="text-center text-muted">
+        <p>You haven’t placed any orders yet 😅</p>
+        <a href="{% url 'shop:product_list' %}" class="btn btn-warning mt-2">
+            Start Shopping 🍞
+        </a>
+    </div>
+{% endif %}
+{% endblock %}
